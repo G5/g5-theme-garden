@@ -1,0 +1,794 @@
+@import 'colors.scss';
+@import 'https://fonts.googleapis.com/css?family=Cinzel:400,700,900';
+@import 'bourbon/bourbon.scss';
+
+/*
+TABLE OF CONTENTS
+-------------------------------------------
+INCLUDED IN CLIENT HUB:
+  - normalize
+  - special styles
+
+THIS FILE:
+  - helpers/mixins
+  - sass variables
+  - base styles
+  - layout
+  - header/footer
+  - main/aside
+  - widgets
+  - media queries
+*/
+
+// HELPERS =======================
+@mixin font-size($value) {
+  font-size: $value + px;
+  font-size: ($value / 10) + rem;
+}
+@mixin box-shadow($properties) {
+  box-shadow:         $properties;
+  -moz-box-shadow:    $properties;
+  -webkit-box-shadow: $properties;
+}
+@mixin stripes($color1, $color2, $size) {
+  background-image: -webkit-linear-gradient(right bottom, $color1 15%, $color2 15%, $color2 50%, $color1 50%, $color1 65%, $color2 65%);
+  background-image: -moz-linear-gradient(right bottom, $color1 15%, $color2 15%, $color2 50%, $color1 50%, $color1 65%, $color2 65%);
+  background-image: -ms-linear-gradient(right bottom, $color1 15%, $color2 15%, $color2 50%, $color1 50%, $color1 65%, $color2 65%);
+  background-image: -o-linear-gradient(right bottom, $color1 15%, $color2 15%, $color2 50%, $color1 50%, $color1 65%, $color2 65%);
+  background-image: linear-gradient(right bottom, $color1 15%, $color2 15%, $color2 50%, $color1 50%, $color1 65%, $color2 65%);
+  background-size: $size $size;
+}
+@mixin border-box {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+@mixin image-replacement {
+  display: inline-block;
+  text-indent : -999em;
+  white-space : nowrap;
+  overflow : hidden;
+}
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+
+// VARIABLES
+$text: #504e4e;
+$white: #fff;
+$sans-serif: arial, helvetica, sans-serif;
+$serif: 'Cinzel', serif;
+
+
+// GENERAL =========================
+html {
+  height: 100%;
+  font-size: 62.5%;
+}
+body {
+  background: #fff url('http://themes.g5dxm.com/classic/background.png') 0 0 repeat;
+  color: $text;
+  font-size: 16px;
+  font-family: $sans-serif;
+  min-height: 100%;
+  position: relative;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  margin-top: 0;
+}
+h2,
+.widget .heading {
+  @include font-size(24);
+  border-bottom: 1px solid $secondaryColor;
+  color: $secondaryColor;
+  text-transform: uppercase;
+}
+header[role=banner],
+h1, h2, h3, h4, h5, h6,
+.action-calls,
+.widget .heading {
+  font-family: $serif;
+  font-weight: 400;
+}
+a {
+  color: $primaryColor;
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+.form-field {
+  margin-bottom: 1em;
+}
+.form .required:after {
+  content: '*';
+  margin-left: .25em;
+}
+.form-instruction {
+  @include font-size(16);
+  display: inline-block;
+  font-family: $serif;
+  margin: .5em 0 0 25px;
+}
+
+.form-optional {
+  color: #888;
+  padding: 0 .5em;
+}
+
+textarea,
+#{$all-text-inputs} {
+  padding: .3em .5em;
+}
+input,
+label,
+legend {
+  @include font-size(18);
+}
+#{$all-text-inputs},
+textarea {
+  @include border-box;
+  background: #e1e1e1;
+  border: none;
+  width: 100%;
+  font-family: $sans-serif;
+}
+input[type=checkbox],
+input[type=radio] {
+  display: inline-block;
+  margin-right: .5em;
+  width: auto;
+}
+textarea {
+  height: 5em;
+}
+label,
+legend {
+  font-family: $serif;
+}
+input[type=submit] {
+  display: inline-block;
+}
+
+// LAYOUT ========================
+.wrapper .content,
+header[role=banner] {
+  max-width: 1600px;
+  width: 100%;
+}
+.wrapper .content {
+  @include clearfix;
+}
+header[role=banner],
+section[role=main],
+.aside-top,
+aside[role=complementary],
+footer[role=contentinfo],
+.wrapper {
+  @include border-box;
+  position: relative;
+}
+header[role=banner],
+footer[role=contentinfo],
+section[role=main],
+.aside-top,
+aside[role=complementary] {
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+}
+section[role=main],
+.aside-top,
+aside[role=complementary] {
+  padding-bottom: 2em;
+}
+footer[role=contentinfo] {
+  max-width: 1184px;
+}
+
+// HEADER/FOOTER STYLES =========================
+header[role=banner] {
+  @include clearfix;
+  margin-bottom: 1em;
+  position: relative;
+  text-transform: uppercase;
+  h1 {
+    margin: 0 auto;
+    width: 75%;
+  }
+  .tel {
+    display: none !important;
+  }
+}
+#drop-target-logo {
+  @include clearfix;
+  overflow: hidden;
+}
+footer[role=contentinfo] {
+  @include clearfix;
+  @include font-size(12);
+  clear: both;
+  color: $primaryColor;
+  padding-bottom: 1em;
+  padding-top: 3.5em;
+  position: relative;
+  text-transform: uppercase;
+  &:before {
+    @include stripes($primaryColor, transparent, 4px);
+    content: '';
+    display: block;
+    height: 10px;
+    left: 2.5%;
+    position: absolute;
+    top: 10px;
+    width: 95%;
+  }
+  &:after {
+    background: $primaryColor;
+    content: '';
+    display: block;
+    height: 2px;
+    left: 2.5%;
+    position: absolute;
+    top: 24px;
+    width: 95%;
+  }
+  nav {
+    margin-bottom: 1em;
+    li,
+    ul a {
+      display: inline-block;
+    }
+  }
+  li:first-child a {
+    padding-left: 0;
+  }
+  li:before {
+    color: $primaryColor;
+    content: '|';
+    padding: 0 .5em;
+  }
+  li:first-child:before {
+    content: '';
+    padding: 0;
+  }
+}
+
+// NAVIGATION ========================
+.collapsable-btn {
+  background: $secondaryColor;
+  cursor: pointer;
+  padding: .2em .4em;
+  .text {
+    display: none;
+  }
+  .bars span {
+    border-bottom: 1px solid #fff;
+    display: block;
+    margin: .35em 0;
+    width: 1.2em;
+  }
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+
+// WIDGET STYLES =======================
+.btn,
+input[type=submit] {
+  background: $secondaryColor;
+  color: #fff;
+  padding: .3em .5em;
+  border: none;
+  cursor: pointer;
+}
+section[role=main] .widget {
+  margin-bottom: 2em;
+}
+.social-links {
+  a {
+    background: url('http://widgets.g5dxm.com/social-links/social-icons.png') no-repeat;
+    width: 44px;
+    height: 44px;
+    text-indent: -999em;
+    overflow: hidden;
+  }
+  a:last-child {
+    margin-right: 0;
+  }
+  .twitter {
+    background-position: 0 0;
+  }
+  .tumblr {
+    background-position: 0 -60px;
+  }
+  .facebook {
+    background-position: 0 -120px;
+  }
+  .instagram {
+    background-position: 0 -180px;
+  }
+  .vimeo {
+    background-position: 0 -240px;
+  }
+  .yelp {
+    background-position: 0 -300px;
+  }
+  .foursquare {
+    background-position: 0 -360px;
+  }
+  .pinterest {
+    background-position: 0 -420px;
+  }
+  .youtube {
+    background-position: 0 -480px;
+  }
+}
+.floorplans {
+  .color {
+    color: $primaryColor;
+  }
+  .filter {
+      @include linear-gradient(#fff, #f0f0f0);
+      border: 1px solid #cbcbcb;
+      border-radius: 5px;
+      margin-bottom: .5em;
+      padding: .75em 1em;
+      input {
+        display: none;
+      }
+    }
+    .filter-btn {
+      @include font-size(16);
+      @include linear-gradient(white, #f0f0f0);
+      border: 1px solid #cbcbcb;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      padding: .3125em .5em;
+    }
+    .disabled {
+      color: #cbcbcb;
+    }
+    input:checked + .filter-btn {
+      border-color: $text;
+    }
+    .filter-name {
+      @include font-size(16);
+      color: $secondaryColor;
+    }
+  @media (min-width: 768px) {
+    .floorplans .filter-name {
+      @include font-size(22);
+    }
+  }
+  .choose-floorplan {
+    text-decoration: none;
+  }
+}
+.floorplan-container {
+  background: #fff;
+}
+.floorplan-img {
+  width: 10%;
+}
+.gallery {
+  .photo {
+    margin: 2em 0 1em;
+  }
+  img {
+    display: block;
+  }
+}
+.gallery-navigation {
+  a {
+    margin: 0 1em 1em 0;
+  }
+  span {
+    background: $primaryColor;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    height: 12px;
+    overflow: hidden;
+    text-indent: -999em;
+    width: 12px;
+  }
+}
+.twitter-feed,
+.blog-feed {
+  @include font-size(14);
+}
+.twitter-feed {
+  .tweet-text a,
+  .tweet-name,
+  .tweet-date,
+  .follow {
+    text-decoration: none;
+  }
+  li {
+    background: #393939;
+  }
+  .tweet-date {
+    color: #707070;
+  }
+  .tweet-date,
+  .tweet-name {
+    @include font-size(12);
+  }
+  .tweet-date,
+  .tweet-text p {
+    color: #b5b5b5;
+  }
+  .tweet-name {
+    color: $white;
+    display: block;
+  }
+  .tweet-text {
+    display: block;
+    margin-top: .25em;
+  }
+  .follow {
+    @include font-size(14);
+    background: $secondaryColor;
+    color: $white;
+    font-family: $serif;
+    margin-top: 1em;
+    padding: .5em 1em;
+  }
+}
+.tweet-list a {
+  color: $secondaryColor;
+}
+[role=complementary] {
+  .twitter-feed {
+    .tweet-text {
+      @include font-size(12);
+    }
+  }
+}
+.aside-top,
+aside[role=complementary] {
+  .widget {
+    margin-top: 2em;
+  }
+  .contact-info {
+    color: #707070;
+    font-family: $serif;
+    text-align: center;
+    text-transform: uppercase;
+    p {
+      border-top: 1px dotted #707070;
+      padding: .5em;
+      &:first-child {
+        border-top: none;
+      }
+    }
+  }
+}
+.coupon {
+  @include clearfix;
+  h2 {
+    @include font-size(18);
+    border-bottom-color: $secondaryColor;
+    color: $secondaryColor;
+    padding-bottom: .5em;
+    margin-bottom: 2em;
+    text-align: center;
+  }
+  .coupon-logo {
+    display: block;
+    max-width: 60%;
+    margin: 1em auto 2em;
+  }
+  .p-name {
+    @include font-size(14);
+  }
+  .p-street-address,
+  .p-tel {
+    display: block;
+  }
+  .btn {
+    @include border-box;
+    @include font-size(14);
+    display: inline-block;
+    text-decoration: none;
+    margin: 0;
+    padding: .4em;
+    text-align: center;
+  }
+  .coupon-print {
+    width: 100%;
+    margin-bottom: 1%;
+  }
+  .coupon-email,
+  .coupon-text {
+    width: 49.5%;
+  }
+  .coupon-email {
+    margin-right: 1%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 980px) {
+  .coupon-info,
+  .coupon-map {
+    @include border-box;
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 1200px) {
+  [role=main] {
+    .coupon {
+      @include clearfix;
+      .coupon-info {
+        padding-right: 1%;
+      }
+      .coupon-map {
+        padding-left: 1%;
+      }
+      h2 {
+        @include font-size(26);
+      }
+      .btn {
+        @include font-size(16);
+      }
+    }
+    .coupon-info,
+    .coupon-map {
+      @include border-box;
+      float: left;
+      width: 50%;
+    }
+  }
+}
+
+// SMALLER THAN DESKTOP =====================
+@media (max-width: 979px) {
+  header[role=banner] {
+    @include box-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+    background: #efedee;
+    h1 {
+      margin: 2em auto 1em;
+    }
+    .buttons {
+      position: absolute;
+      right: 2.5%;
+      top: .375em;
+    }
+    .btn {
+      display: inline-block;
+      margin-left: .5em;
+      vertical-align: top;
+    }
+  }
+  header[role=banner] nav,
+  .action-calls {
+    background: $primaryColor;
+    text-align: center;
+    a {
+      @include font-size(18);
+      color: #fff;
+      display: block;
+      padding: .5em;
+    }
+    li {
+      border-top: 1px solid;
+      border-top-color: #fff;
+      border-top-color: rgba(255, 255, 255, .5);
+      &:first-child {
+        border-top: none;
+      }
+    }
+  }
+  footer[role=contentinfo] .navigation {
+    text-align: center;
+    a {
+      padding: .5em;
+    }
+  }
+}
+
+// IPAD AND LARGER =====================
+@media (min-width: 768px) {
+  #{$all-text-inputs},
+  textarea {
+    width: 50%;
+  }
+  input[type=checkbox],
+  input[type=radio] {
+    width: auto;
+  }
+  header[role=banner] {
+    padding-top: 1em;
+    h1 {
+      float: left;
+      margin: 0;
+    }
+    nav {
+      clear: left;
+    }
+  }
+  footer[role=contentinfo] {
+    .copyright,
+    .dxm {
+      clear: right;
+      float: right;
+    }
+    .hours,
+    .contact-info {
+      float: left;
+      margin-right: 40px;
+    }
+    .navigation {
+      li {
+        display: inline-block;
+        &:before {
+          content: '/';
+        }
+        &:first-child:before {
+          content: '';
+        }
+      }
+    }
+  }
+}
+
+// SMALL DESKTOP AND LARGER =====================
+@media (min-width: 980px) {
+  body:before {
+    @include box-shadow(1px 0 3px rgba(0, 0, 0, .3));
+    background: #efedee;
+    bottom: 0;
+    content: '';
+    display: block;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 26%;
+    max-width: 416px;
+  }
+  h2,
+  .widget .heading {
+    @include font-size(24);
+  }
+  header[role=banner] {
+    padding: 40px 0 0;
+    h1 {
+      position: absolute;
+      left: 2.5%;
+      top: 3.5em;
+      width: 22%;
+      z-index: 10;
+      a {
+        margin: 0;
+      }
+    }
+    &:before {
+      @include box-shadow(0 1px 4px -1px rgba(0, 0, 0, .5));
+      background: $primaryColor;
+      bottom: 0;
+      content: '';
+      display: block;
+      left: 0;
+      padding-right: 15px;
+      position: absolute;
+      top: 40px;
+      width: 26%;
+      z-index: 10;
+    }
+    .buttons {
+      display: none;
+    }
+    nav {
+      @include border-box;
+      @include box-shadow(0 1px 4px -1px rgba(0, 0, 0, .5));
+      background: $primaryColor;
+      left: 26%;
+      padding: .5em .5em .5em 30px;
+      position: relative;
+      top: 15px;
+      width: 74%;
+      a {
+        color: #fff;
+        padding: 0 1em;
+      }
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+      &:before {
+        border: 15px solid transparent;
+        border-left-color: rgba(0, 0, 0, .8);
+        bottom: 0;
+        content: '';
+        display: block;
+        height: 0;
+        left: 0;
+        position: absolute;
+        width: 0;
+      }
+      li {
+        border-top: none;
+        display: inline-block;
+      }
+    }
+  }
+  .footer li:before {
+    color: $primaryColor;
+  }
+  section[role=main] {
+    padding: 2em 2.5% 1em;
+    overflow: hidden;
+    width: 74%;
+  }
+  .aside-top {
+    padding-top: 150px;
+  }
+  .aside-top,
+  aside[role=complementary] {
+    background: transparent;
+    width: 26%;
+  }
+  footer[role=contentinfo] {
+    margin-left: 26%;
+    width: 74%;
+    .content {
+      @include clearfix;
+    }
+  }
+  .action-calls {
+    background: #fff;
+    border-radius: 10px;
+    font-size: 18px;
+    a {
+      border-top: 1px solid $primaryColor;
+      display: block;
+      padding: .5em 1em;
+      &:hover,
+      &:focus {
+        background: $primaryColor;
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+    li:first-child a {
+      border-top: none;
+      &:hover,
+      &:focus {
+        border-radius: 10px 10px 0 0;
+      }
+    }
+    li:nth-child(4n) a:hover,
+      li:nth-child(4n) a:focus {
+      border-radius: 0 0 10px 10px;
+    }
+  }
+  .gallery-navigation a {
+    margin-right: .2em;
+  }
+}
+@media (min-width: 1600px) {
+  footer[role=contentinfo] {
+    margin-left: 416px;
+    width: 1184px;
+  }
+  section[role=main] {
+    width: 1184px;
+  }
+  .aside-top,
+  aside[role=complementary] {
+    width: 416px;
+  }
+}

@@ -1,0 +1,39 @@
+<article class="h-g5-component well">
+  <header>
+    <h2 class="p-name">
+      <%= component.resource_link({url: component_url(component.g5_uid),
+                                   html: {class: "u-url u-uid", rel: "bookmark"},
+                                   body: component.name}) %>
+    </h2>
+
+    <p class="p-summary"><%= component.summary %>
+      <% if component.respond_to?(:g5_targets) %>
+        <h3>Targets</h3>
+        <% component.g5_targets.each do |target| %>
+          <%= link_to target.to_s, target.to_s, class: "u-g5-target" %>
+        <% end %>
+      <% end %>
+    </p>
+
+    <p>
+      <%= component.resource_link({uri: component.photo,
+                                   html: {class: "u-photo u-url"},
+                                   body: raw("<img src=#{component.photo}>")}) %>
+    </p>
+
+    <% if component.respond_to?(:g5_stylesheets) %>
+      <% component.g5_stylesheets.each do |stylesheet| %>
+        <p>
+          <%= component.resource_link({uri: stylesheet,
+                                       html: {class: "u-g5-stylesheet u-url"}}) %>
+        </p>
+      <% end %>
+    <% end %>
+    <% if component.respond_to?(:g5_colors) %>
+      <h3>Default Colors</h3>
+      <% component.g5_colors.each do |color| %>
+        <p class="p-g5-color"><%= color %></p>
+      <% end %>
+    <% end %>
+  </header>
+</article>
