@@ -1,0 +1,3 @@
+[submodule "public/static/private-components"]
+	path = public/static/private-components
+	url = https://github.com/g5search/g5-theme-garden.git

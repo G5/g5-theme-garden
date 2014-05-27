@@ -24,6 +24,8 @@ group :development, :test do
   gem "simplecov", require: false
   gem "codeclimate-test-reporter", require: false
   gem "foreman"
+  gem "aws-sdk"
+  gem "httparty"
 end
 
 group :production do
